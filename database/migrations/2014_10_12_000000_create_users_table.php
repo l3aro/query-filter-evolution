@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('gender', 10)->nullable()->index();
             $table->boolean('is_active')->default(true)->index();
             $table->boolean('is_admin')->default(false)->index();
-            $table->timestamp('birthday')->nullable();
+            $table->date('birthday')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
