@@ -22,6 +22,6 @@ trait Filterable
             return $this->getFilters();
         }
 
-        return property_exists($this, 'filters') ? $this->filters : [];
+        return [];
     }
 }
