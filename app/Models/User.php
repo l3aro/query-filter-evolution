@@ -42,28 +42,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function scopeRelativeFilter(Builder $query, $inputName): Builder
-    {
-        if (request()->has($inputName)) {
-            $query->where($inputName, 'like', "%" . request()->input($inputName) . "%");
-        }
-        return $query;
-    }
-
-    public function scopeExactFilter(Builder $query, $inputName): Builder
-    {
-        if (request()->has($inputName)) {
-            $query->where($inputName, request()->input($inputName));
-        }
-        return $query;
-    }
-
-    public function scopeBooleanFilter(Builder $query, $inputName): Builder
-    {
-        if (request()->has($inputName)) {
-            $query->where($inputName, request()->input($inputName) ? 1 : 0);
-        }
-        return $query;
-    }
 }

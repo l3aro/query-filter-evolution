@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 
 class UserController extends Controller
 {
@@ -11,13 +12,17 @@ class UserController extends Controller
     {
         // /users?name=john&email=desmond&gender=female&is_active=1&is_admin=0&birthday=2015-04-11
 
-        $query = User::query()
-            ->relativeFilter('name')
-            ->relativeFilter('email')
-            ->exactFilter('gender')
-            ->booleanFilter('is_active')
-            ->booleanFilter('is_admin')
-            ->exactFilter('birthday');
+        $query = app(Pipeline::class)
+            ->send(User::query())
+            ->through([
+                new \App\Models\Pipes\RelativeFilter('name'),
+                new \App\Models\Pipes\RelativeFilter('email'),
+                new \App\Models\Pipes\ExactFilter('gender'),
+                new \App\Models\Pipes\BooleanFilter('is_active'),
+                new \App\Models\Pipes\BooleanFilter('is_admin'),
+                new \App\Models\Pipes\ExactFilter('birthday'),
+            ])
+            ->thenReturn();
 
         return $query->paginate();
 
