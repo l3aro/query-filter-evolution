@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Filterable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,16 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use Filterable;
+
+    protected $filters = [
+        new \App\Models\Pipes\RelativeFilter('name'),
+        new \App\Models\Pipes\RelativeFilter('email'),
+        new \App\Models\Pipes\ExactFilter('gender'),
+        new \App\Models\Pipes\BooleanFilter('is_active'),
+        new \App\Models\Pipes\BooleanFilter('is_admin'),
+        new \App\Models\Pipes\ExactFilter('birthday'),
+    ];
 
     /**
      * The attributes that are mass assignable.
