@@ -14,7 +14,8 @@ class UserController extends Controller
 
         return User::query()
             ->filter()
-            ->paginate();
+            ->paginate()
+            ->appends($request->query()); // append all current queries into pagination links
 
         // select * from `users` where `name` like '%john%' and `email` like '%desmond%' and `gender` = 'female' and `is_active` = 1 and `is_admin` = 0 and `birthday` = '2015-04-11' limit 15 offset 0
     }
